@@ -1,0 +1,335 @@
+<title>원의 넓이 활동지</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Jua&family=Gowun+Dodum&family=IBM+Plex+Mono:wght@500&display=swap">
+<style>
+/* Layout: 모눈종이 위의 한 장짜리 활동지. 단계별 섹션이 위에서 아래로, 문제 카드는 두 열 → 폰에서는 한 열 */
+:root{
+  --paper:#fbfcff; --grid:#e3e9f6; --ink:#1b2a4e; --muted:#5b6785;
+  --accent:#2f54c8; --shade:#ffd54a; --shade-2:#8fc7ff; --line:#c7d1e8;
+  --ok:#1f8a5b; --ok-bg:#e2f5ec; --no:#c2362f; --no-bg:#fbe6e4; --card:#ffffff;
+  --f-display:"Jua","Apple SD Gothic Neo","Malgun Gothic",sans-serif;
+  --f-body:"Gowun Dodum","Apple SD Gothic Neo","Malgun Gothic",sans-serif;
+  --f-num:"IBM Plex Mono",ui-monospace,Consolas,monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --paper:#141a2b; --grid:#1d2540; --ink:#e6ebf7; --muted:#9fa9c4;
+  --accent:#8eaaff; --shade:#e0b52c; --shade-2:#4f8fd1; --line:#33405f;
+  --ok:#5fd49c; --ok-bg:#183a2c; --no:#ff8a80; --no-bg:#43201e; --card:#1a2236; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --paper:#141a2b; --grid:#1d2540; --ink:#e6ebf7; --muted:#9fa9c4;
+  --accent:#8eaaff; --shade:#e0b52c; --shade-2:#4f8fd1; --line:#33405f;
+  --ok:#5fd49c; --ok-bg:#183a2c; --no:#ff8a80; --no-bg:#43201e; --card:#1a2236; color-scheme:dark}
+
+body{background-color:var(--paper);color:var(--ink);font-family:var(--f-body);font-size:16px;line-height:1.7;
+  background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);
+  background-size:24px 24px}
+.wrap{max-width:860px;margin:0 auto;padding-inline:16px;padding-block:28px 64px;display:flex;flex-direction:column;gap:28px}
+h1,h2,h3{font-family:var(--f-display);font-weight:400;text-wrap:balance;margin:0;line-height:1.3}
+h1{font-size:2.2rem}
+h2{font-size:1.45rem;display:flex;align-items:center;gap:10px}
+h3{font-size:1.1rem}
+p{margin:0}
+.step{font-family:var(--f-num);font-size:.8rem;letter-spacing:.06em;color:var(--paper);background:var(--accent);border-radius:4px;padding:2px 8px}
+.sheet{background:var(--card);border:1.5px solid var(--line);border-radius:6px;padding:22px;display:flex;flex-direction:column;gap:16px}
+header.top{display:flex;flex-direction:column;gap:10px}
+.unit{font-size:.9rem;color:var(--muted);letter-spacing:.04em}
+.student{display:flex;flex-wrap:wrap;gap:12px 20px}
+.student label{display:flex;align-items:center;gap:6px;color:var(--muted)}
+.student input{width:6em}
+input,select{font:inherit;font-family:var(--f-num);color:var(--ink);background:var(--paper);border:none;border-bottom:2px solid var(--line);padding:2px 6px;min-width:0}
+input:focus-visible,select:focus-visible,button:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.note{background:var(--paper);border:1.5px dashed var(--line);border-radius:6px;padding:10px 14px;font-size:.95rem}
+.formula{font-family:var(--f-display);font-size:1.35rem;text-align:center;padding:14px;border:2px solid var(--accent);border-radius:6px;color:var(--accent)}
+.fig{overflow-x:auto}
+.fig svg{display:block;max-width:100%;height:auto;margin:0 auto}
+svg text{font-family:var(--f-body);fill:var(--ink);font-size:13px}
+.s-line{stroke:var(--ink);stroke-width:1.6;fill:none}
+.s-grid{stroke:var(--line);stroke-width:1;fill:none}
+.s-shade{fill:var(--shade);stroke:var(--ink);stroke-width:1.6}
+.s-shade2{fill:var(--shade-2);stroke:var(--ink);stroke-width:1.2}
+.s-blank{fill:var(--card);stroke:var(--ink);stroke-width:1.6}
+.s-dash{stroke:var(--accent);stroke-width:1.6;stroke-dasharray:4 3;fill:none}
+.s-dot{fill:var(--ink)}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+@media (max-width:640px){.two{grid-template-columns:1fr}}
+.q{border:1.5px solid var(--line);border-radius:6px;padding:14px;display:flex;flex-direction:column;gap:10px;min-width:0;background:var(--card)}
+.q .num{font-family:var(--f-display);color:var(--accent);font-size:1.15rem}
+.ans{display:flex;flex-wrap:wrap;align-items:center;gap:8px}
+.ans input{width:7em;text-align:right}
+.unit-label{color:var(--muted)}
+.fb{font-size:.85rem;border-radius:999px;padding:1px 10px}
+.fb.ok{background:var(--ok-bg);color:var(--ok)}
+.fb.no{background:var(--no-bg);color:var(--no)}
+.work{border:none;border-top:1.5px dotted var(--line);min-height:2.4em;font-size:.85rem;color:var(--muted);padding-top:4px}
+.bar{display:flex;flex-wrap:wrap;gap:12px;align-items:center;justify-content:space-between}
+button{font-family:var(--f-display);font-size:1rem;border-radius:6px;padding:8px 18px;cursor:pointer;border:2px solid var(--accent)}
+.btn-main{background:var(--accent);color:var(--paper)}
+.btn-sub{background:transparent;color:var(--accent)}
+.score{font-family:var(--f-display);font-size:1.2rem}
+.score b{font-family:var(--f-num);color:var(--accent)}
+.key{font-variant-numeric:tabular-nums}
+.key ol{margin:0;padding-left:1.4em;display:grid;gap:4px}
+.key code{font-family:var(--f-num);font-size:.9em}
+.reflect textarea{width:100%;box-sizing:border-box;font:inherit;color:var(--ink);background:var(--paper);border:1.5px solid var(--line);border-radius:6px;padding:8px;min-height:4.5em;resize:vertical}
+</style>
+
+<div class="wrap">
+
+<header class="top">
+  <div class="unit">6학년 2학기 · 5단원 원의 넓이</div>
+  <h1>원의 넓이 구하기</h1>
+  <div class="student">
+    <label for="cls">반 <input id="cls" type="text"></label>
+    <label for="no">번호 <input id="no" type="text"></label>
+    <label for="nm">이름 <input id="nm" type="text" style="width:8em"></label>
+  </div>
+  <p class="note">이 활동지에서는 <b>원주율을 3.14</b>로 계산해요. 답을 쓰고 <b>채점하기</b>를 누르면 맞았는지 바로 알 수 있어요.</p>
+</header>
+
+<!-- 1. 어림하기 -->
+<section class="sheet">
+  <h2><span class="step">활동 1</span> 원의 넓이를 어림해 봐요</h2>
+  <p>모눈 한 칸은 가로 1 cm, 세로 1 cm예요. 반지름이 5 cm인 원 안쪽에 마름모를, 바깥쪽에 정사각형을 그렸어요.</p>
+  <div class="fig">
+    <svg viewBox="0 0 300 270" width="300" aria-label="반지름 5 cm 원과 안쪽 마름모, 바깥 정사각형">
+      <g id="grid1"></g>
+      <rect x="30" y="10" width="240" height="240" class="s-line"/>
+      <circle cx="150" cy="130" r="120" class="s-shade2" style="fill-opacity:.45"/>
+      <polygon points="150,10 270,130 150,250 30,130" class="s-dash"/>
+      <circle cx="150" cy="130" r="3" class="s-dot"/>
+      <line x1="150" y1="130" x2="270" y2="130" class="s-line"/>
+      <text x="196" y="124">5 cm</text>
+      <text x="118" y="266">10 cm</text>
+    </svg>
+  </div>
+  <div class="two">
+    <div class="q">
+      <span class="num">①</span>
+      <p>바깥 정사각형의 넓이는 몇 cm²인가요?</p>
+      <div class="ans"><input id="a1a" data-answer="100" inputmode="decimal"><span class="unit-label">cm²</span><span class="fb" hidden></span></div>
+    </div>
+    <div class="q">
+      <span class="num">②</span>
+      <p>안쪽 마름모의 넓이는 몇 cm²인가요? <small>(대각선 × 대각선 ÷ 2)</small></p>
+      <div class="ans"><input id="a1b" data-answer="50" inputmode="decimal"><span class="unit-label">cm²</span><span class="fb" hidden></span></div>
+    </div>
+  </div>
+  <p>그러니까 원의 넓이는 <b>마름모보다 크고 정사각형보다 작아요.</b> 정확히 얼마일까요? 다음 활동에서 알아봐요.</p>
+</section>
+
+<!-- 2. 공식 발견 -->
+<section class="sheet">
+  <h2><span class="step">활동 2</span> 원을 잘라 직사각형으로 바꿔요</h2>
+  <p>원을 피자처럼 16조각으로 자른 뒤, 조각을 위아래로 번갈아 붙이면 직사각형에 가까운 모양이 돼요. 조각을 더 잘게 자를수록 진짜 직사각형에 가까워져요.</p>
+  <div class="fig">
+    <svg id="cut" viewBox="0 0 640 200" width="640" aria-label="원을 16조각으로 잘라 직사각형 모양으로 늘어놓은 그림"></svg>
+  </div>
+  <div class="two">
+    <div class="q">
+      <span class="num">③</span>
+      <p>직사각형의 <b>가로</b>는 원의 무엇과 같나요?</p>
+      <div class="ans">
+        <select id="a2a" data-answer="half">
+          <option value="">골라 보세요</option>
+          <option value="diam">원의 지름</option>
+          <option value="half">원주의 절반 (반지름 × 원주율)</option>
+          <option value="rad">원의 반지름</option>
+        </select><span class="fb" hidden></span>
+      </div>
+    </div>
+    <div class="q">
+      <span class="num">④</span>
+      <p>직사각형의 <b>세로</b>는 원의 무엇과 같나요?</p>
+      <div class="ans">
+        <select id="a2b" data-answer="rad">
+          <option value="">골라 보세요</option>
+          <option value="diam">원의 지름</option>
+          <option value="half">원주의 절반</option>
+          <option value="rad">원의 반지름</option>
+        </select><span class="fb" hidden></span>
+      </div>
+    </div>
+  </div>
+  <p>직사각형의 넓이 = 가로 × 세로 = (반지름 × 원주율) × 반지름. 그래서</p>
+  <div class="formula">원의 넓이 = 반지름 × 반지름 × 원주율</div>
+</section>
+
+<!-- 3. 기본 문제 -->
+<section class="sheet">
+  <h2><span class="step">활동 3</span> 공식으로 넓이를 구해요</h2>
+  <p class="note">지름이 주어지면 먼저 <b>지름 ÷ 2</b>로 반지름을 구해요.</p>
+  <div class="two">
+    <div class="q"><span class="num">⑤</span><p>반지름이 <b>5 cm</b>인 원</p>
+      <div class="ans"><input id="b1" data-answer="78.5" inputmode="decimal"><span class="unit-label">cm²</span><span class="fb" hidden></span></div>
+      <div class="work">식: </div></div>
+    <div class="q"><span class="num">⑥</span><p>반지름이 <b>10 cm</b>인 원</p>
+      <div class="ans"><input id="b2" data-answer="314" inputmode="decimal"><span class="unit-label">cm²</span><span class="fb" hidden></span></div>
+      <div class="work">식: </div></div>
+    <div class="q"><span class="num">⑦</span><p>지름이 <b>8 cm</b>인 원</p>
+      <div class="ans"><input id="b3" data-answer="50.24" inputmode="decimal"><span class="unit-label">cm²</span><span class="fb" hidden></span></div>
+      <div class="work">식: </div></div>
+    <div class="q"><span class="num">⑧</span><p>지름이 <b>12 cm</b>인 원</p>
+      <div class="ans"><input id="b4" data-answer="113.04" inputmode="decimal"><span class="unit-label">cm²</span><span class="fb" hidden></span></div>
+      <div class="work">식: </div></div>
+  </div>
+</section>
+
+<!-- 4. 색칠한 부분 -->
+<section class="sheet">
+  <h2><span class="step">활동 4</span> 색칠한 부분의 넓이를 구해요</h2>
+  <div class="two">
+    <div class="q"><span class="num">⑨</span><p>큰 원과 작은 원의 중심이 같아요.</p>
+      <div class="fig"><svg viewBox="0 0 200 170" width="200">
+        <circle cx="100" cy="85" r="72" class="s-shade"/>
+        <circle cx="100" cy="85" r="36" class="s-blank"/>
+        <circle cx="100" cy="85" r="2.5" class="s-dot"/>
+        <line x1="100" y1="85" x2="136" y2="85" class="s-line"/>
+        <line x1="100" y1="85" x2="100" y2="13" class="s-line"/>
+        <text x="106" y="80">3 cm</text>
+        <text x="104" y="40">6 cm</text>
+      </svg></div>
+      <div class="ans"><input id="c1" data-answer="84.78" inputmode="decimal"><span class="unit-label">cm²</span><span class="fb" hidden></span></div>
+      <div class="work">식: </div></div>
+    <div class="q"><span class="num">⑩</span><p>지름이 20 cm인 반원이에요.</p>
+      <div class="fig"><svg viewBox="0 0 200 170" width="200">
+        <path d="M20 120 A80 80 0 0 1 180 120 Z" class="s-shade"/>
+        <text x="80" y="142">20 cm</text>
+      </svg></div>
+      <div class="ans"><input id="c2" data-answer="157" inputmode="decimal"><span class="unit-label">cm²</span><span class="fb" hidden></span></div>
+      <div class="work">식: </div></div>
+    <div class="q"><span class="num">⑪</span><p>한 변이 10 cm인 정사각형 안에 꼭 맞는 원을 그렸어요.</p>
+      <div class="fig"><svg viewBox="0 0 200 170" width="200">
+        <rect x="35" y="10" width="130" height="130" class="s-shade"/>
+        <circle cx="100" cy="75" r="65" class="s-blank"/>
+        <text x="80" y="160">10 cm</text>
+      </svg></div>
+      <div class="ans"><input id="c3" data-answer="21.5" inputmode="decimal"><span class="unit-label">cm²</span><span class="fb" hidden></span></div>
+      <div class="work">식: </div></div>
+    <div class="q"><span class="num">⑫</span><p>반지름이 8 cm인 원의 1/4이에요.</p>
+      <div class="fig"><svg viewBox="0 0 200 170" width="200">
+        <path d="M50 145 L50 15 A130 130 0 0 1 180 145 Z" class="s-shade"/>
+        <text x="100" y="162">8 cm</text>
+      </svg></div>
+      <div class="ans"><input id="c4" data-answer="50.24" inputmode="decimal"><span class="unit-label">cm²</span><span class="fb" hidden></span></div>
+      <div class="work">식: </div></div>
+  </div>
+</section>
+
+<!-- 5. 생활 속 문제 -->
+<section class="sheet">
+  <h2><span class="step">활동 5</span> 생활 속에서 원의 넓이 쓰기</h2>
+  <div class="q">
+    <span class="num">⑬ 피자 고르기</span>
+    <p>같은 값으로 <b>지름 30 cm 피자 1판</b>을 사거나, <b>지름 20 cm 피자 2판</b>을 살 수 있어요. 어느 쪽을 사야 더 많이 먹을 수 있을까요?</p>
+    <div class="ans"><span>지름 30 cm 피자 1판:</span><input id="d1" data-answer="706.5" inputmode="decimal"><span class="unit-label">cm²</span><span class="fb" hidden></span></div>
+    <div class="ans"><span>지름 20 cm 피자 2판:</span><input id="d2" data-answer="628" inputmode="decimal"><span class="unit-label">cm²</span><span class="fb" hidden></span></div>
+    <div class="ans"><span>더 많이 먹을 수 있는 쪽:</span>
+      <select id="d3" data-answer="big">
+        <option value="">골라 보세요</option>
+        <option value="big">30 cm 피자 1판</option>
+        <option value="small">20 cm 피자 2판</option>
+      </select><span class="fb" hidden></span></div>
+  </div>
+  <div class="q">
+    <span class="num">⑭ 거꾸로 생각하기</span>
+    <p>원 모양 화단의 넓이가 <b>254.34 m²</b>예요. 화단의 반지름은 몇 m일까요?</p>
+    <div class="ans"><input id="d4" data-answer="9" inputmode="decimal"><span class="unit-label">m</span><span class="fb" hidden></span></div>
+    <div class="work">힌트: 254.34 ÷ 3.14 = (반지름 × 반지름)</div>
+  </div>
+</section>
+
+<!-- 채점 -->
+<section class="sheet">
+  <div class="bar">
+    <span class="score">맞힌 문제 <b id="score">0</b> / <span id="total">0</span></span>
+    <div style="display:flex;gap:10px;flex-wrap:wrap">
+      <button type="button" class="btn-main" id="check">채점하기</button>
+      <button type="button" class="btn-sub" id="toggleKey" aria-expanded="false">정답과 풀이 보기</button>
+    </div>
+  </div>
+  <div class="key" id="key" hidden>
+    <h3>정답과 풀이</h3>
+    <ol>
+      <li>10 × 10 = <code>100</code> cm²</li>
+      <li>10 × 10 ÷ 2 = <code>50</code> cm²</li>
+      <li>원주의 절반 (반지름 × 원주율)</li>
+      <li>원의 반지름</li>
+      <li>5 × 5 × 3.14 = <code>78.5</code> cm²</li>
+      <li>10 × 10 × 3.14 = <code>314</code> cm²</li>
+      <li>반지름 4 → 4 × 4 × 3.14 = <code>50.24</code> cm²</li>
+      <li>반지름 6 → 6 × 6 × 3.14 = <code>113.04</code> cm²</li>
+      <li>6 × 6 × 3.14 − 3 × 3 × 3.14 = 113.04 − 28.26 = <code>84.78</code> cm²</li>
+      <li>10 × 10 × 3.14 ÷ 2 = <code>157</code> cm²</li>
+      <li>10 × 10 − 5 × 5 × 3.14 = 100 − 78.5 = <code>21.5</code> cm²</li>
+      <li>8 × 8 × 3.14 ÷ 4 = <code>50.24</code> cm²</li>
+      <li>15 × 15 × 3.14 = <code>706.5</code> cm², 10 × 10 × 3.14 × 2 = <code>628</code> cm² → 30 cm 피자 1판이 더 많아요</li>
+      <li>254.34 ÷ 3.14 = 81, 9 × 9 = 81 → 반지름 <code>9</code> m</li>
+    </ol>
+  </div>
+</section>
+
+<section class="sheet reflect">
+  <h2><span class="step">정리</span> 오늘 배운 것</h2>
+  <label for="ref1">원의 넓이를 구하는 방법을 친구에게 설명하듯 써 보세요.</label>
+  <textarea id="ref1"></textarea>
+  <label for="ref2">반지름이 2배가 되면 원의 넓이는 몇 배가 될까요? 그렇게 생각한 까닭도 써 보세요.</label>
+  <textarea id="ref2"></textarea>
+</section>
+
+</div>
+
+<script>
+// 활동 1 모눈
+(function(){
+  const g=document.getElementById('grid1');let s='';
+  for(let i=0;i<=10;i++){const p=30+i*24;
+    s+=`<line x1="${p}" y1="10" x2="${p}" y2="250" class="s-grid"/>`;
+    s+=`<line x1="30" y1="${10+i*24}" x2="270" y2="${10+i*24}" class="s-grid"/>`;}
+  g.innerHTML=s;
+})();
+
+// 활동 2 원 자르기 그림
+(function(){
+  const svg=document.getElementById('cut'),n=16,r=70,a=Math.PI/n;
+  const cls=k=>k%2?'s-shade2':'s-shade';let s='';
+  const cx=95,cy=95;
+  for(let k=0;k<n;k++){
+    const t1=k*2*a-Math.PI/2,t2=(k+1)*2*a-Math.PI/2;
+    s+=`<path d="M${cx} ${cy} L${cx+r*Math.cos(t1)} ${cy+r*Math.sin(t1)} A${r} ${r} 0 0 1 ${cx+r*Math.cos(t2)} ${cy+r*Math.sin(t2)} Z" class="${cls(k)}"/>`;
+  }
+  s+=`<text x="${cx-30}" y="185">반지름 = r</text>`;
+  s+=`<path d="M200 95 L240 95 M232 88 L240 95 L232 102" class="s-line"/>`;
+  const b=2*r*Math.sin(a),x0=270,y0=40,h=r*Math.cos(a);
+  for(let k=0;k<n;k++){
+    const c=x0+k*b/2+b/2;
+    if(k%2===0){
+      s+=`<path d="M${c} ${y0} L${c-r*Math.sin(a)} ${y0+h} A${r} ${r} 0 0 0 ${c+r*Math.sin(a)} ${y0+h} Z" class="${cls(k)}"/>`;
+    }else{
+      s+=`<path d="M${c} ${y0+r} L${c-r*Math.sin(a)} ${y0+r-h} A${r} ${r} 0 0 1 ${c+r*Math.sin(a)} ${y0+r-h} Z" class="${cls(k)}"/>`;
+    }
+  }
+  const w=(n+1)*b/2;
+  s+=`<path d="M${x0} ${y0+r+14} L${x0+w} ${y0+r+14}" class="s-dash"/>`;
+  s+=`<text x="${x0+w/2-70}" y="${y0+r+34}">가로 = 원주 ÷ 2 = r × 원주율</text>`;
+  s+=`<path d="M${x0+w+10} ${y0} L${x0+w+10} ${y0+r}" class="s-dash"/>`;
+  s+=`<text x="${x0+w+16}" y="${y0+r/2+5}">세로 = r</text>`;
+  svg.innerHTML=s;
+})();
+
+// 채점
+const items=[...document.querySelectorAll('[data-answer]')];
+document.getElementById('total').textContent=items.length;
+document.getElementById('check').addEventListener('click',()=>{
+  let score=0;
+  items.forEach(el=>{
+    const fb=el.parentElement.querySelector('.fb'),v=el.value.trim().replace(/,/g,'');
+    if(!v){fb.hidden=true;return;}
+    const ok=el.tagName==='SELECT'?v===el.dataset.answer:Math.abs(parseFloat(v)-parseFloat(el.dataset.answer))<0.005;
+    fb.hidden=false;fb.className='fb '+(ok?'ok':'no');fb.textContent=ok?'정답!':'다시 생각해 봐요';
+    if(ok)score++;
+  });
+  document.getElementById('score').textContent=score;
+});
+const tk=document.getElementById('toggleKey'),key=document.getElementById('key');
+tk.addEventListener('click',()=>{key.hidden=!key.hidden;tk.setAttribute('aria-expanded',String(!key.hidden));tk.textContent=key.hidden?'정답과 풀이 보기':'정답과 풀이 숨기기';});
+</script>
